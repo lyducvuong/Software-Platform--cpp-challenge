@@ -4,25 +4,25 @@
 #include "word.h"
 #include <thread>
 #include <semaphore>
+using namespace std;
 class Parser {
 public:
 	Parser() {
+		memset(word.data, NULL, sizeof(word));
     }
 	
     ~Parser() {
-
     }
 
 public:
 	
-    void workerThread();
-    void readInputWords();
-    void lookupWords();
-	void wordsParsing();
+	void readInputWords();
+	void workerThread();
+	void showWordsArrayInfo();
+	void lookupWords();
 
 public:
-	sem_t mutex;
-	std::vector<Word*> wordsArray;
+	vector<Word*> wordsArray;
 	Word word;
 	int totalFound;
 	
