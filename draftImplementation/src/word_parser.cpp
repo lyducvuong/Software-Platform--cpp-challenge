@@ -1,4 +1,4 @@
-#include <thread>
+#include <pthread.h>
 #include <vector>
 #include <algorithm>
 #include <cstdio>
@@ -11,8 +11,8 @@ using namespace std;
 //
 void Parser::readInputWords() {
 	bool endEncountered = false;
-
-	thread worker(&Parser::workerThread, Parser());
+	pthread_t worker;
+	worker = pthread_create(&worker, NULL, &Parser::workerThread_wrapper, this);
 
 	char* linebuf = new char[32];
 	try
@@ -24,14 +24,14 @@ void Parser::readInputWords() {
 
 			endEncountered = strcmp(linebuf, "end") == 0;
 			// Pass the word to the worker thread
-			strcpy_s(word.data, strlen(linebuf) + 1, linebuf);
+			strcpy(word.data, linebuf);
 
 			//while (word.data[0]); // Wait for the worker thread to consume it
 		}
 	}
 	catch (const std::exception&)
 	{
-		worker.join(); // Wait for the worker to terminate
+		pthread_join(worker, NULL); // Wait for the worker to terminate
 		throw;
 	}
 }
@@ -39,6 +39,10 @@ void Parser::readInputWords() {
 // Worker thread: consume words passed from the main thread and insert them
 // in the 'word list' (s_wordsArray), while removing duplicates. Terminate when
 // the word 'end' is encountered.
+void* Parser::workerThread_wrapper(void *object){
+	reinterpret_cast<Parser*>(object)->workerThread();
+	return 0;
+}
 void Parser::workerThread(){
 	bool endEncountered = false;
 	bool found = false;
@@ -48,7 +52,7 @@ void Parser::workerThread(){
 	if (word.data[0]) // Do we have a new word?
 	{
 		Word *w = new Word(); // Copy the word
-		strcpy_s(w->data, strlen(word.data) + 1, word.data);
+		strcpy(w->data, word.data);
 		word.data[0] = 0; // Inform the producer that we consumed the word
 		
 		endEncountered = strcmp( word.data, "end" ) == 0;
@@ -90,12 +94,12 @@ void Parser::lookupWords(){
 	for(;;)
 	{
 		printf( "\nEnter a word for lookup:" );
-		if (scanf_s( "%s", linebuf, sizeof(linebuf)) == EOF)
+		if (scanf( "%s", linebuf) == EOF)
 			return;
 		
 		// Initialize the word to search for
 		Word * w = new Word();
-		strcpy_s( w->data, sizeof(linebuf), linebuf);
+		strcpy( w->data, linebuf);
 		
 		// Search for the word
 		unsigned i;

@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/src/word.h
+stdint.h
+-
+
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/src/word_parser.cpp
+pthread.h
+-
+vector
+-
+algorithm
+-
+cstdio
+-
+cstring
+-
+word_parser.h
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/src/word_parser.h
+
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/src/word_parser.h
+stdint.h
+-
+word.h
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/src/word.h
+thread
+-
+semaphore.h
+-
+

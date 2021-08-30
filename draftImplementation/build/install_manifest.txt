@@ -1,0 +1,3 @@
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/lib/libword_parser.a
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/include/word_parser.h
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/include/word.h

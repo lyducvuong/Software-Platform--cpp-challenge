@@ -1,0 +1,14 @@
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/install/strip.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/install/local.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/install.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/list_install_components.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/rebuild_cache.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/CMakeFiles/edit_cache.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/install/strip.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/install/local.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/install.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/list_install_components.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/rebuild_cache.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/edit_cache.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/word_monitor.dir
+/home/vuongld/work/Software-Platform--cpp-challenge/draftImplementation/build/src/CMakeFiles/word_parser.dir

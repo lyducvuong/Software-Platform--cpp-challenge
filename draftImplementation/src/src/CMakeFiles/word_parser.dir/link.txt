@@ -1,0 +1,2 @@
+/usr/bin/ar qc libword_parser.a  CMakeFiles/word_parser.dir/word_parser.cpp.o
+/usr/bin/ranlib libword_parser.a
