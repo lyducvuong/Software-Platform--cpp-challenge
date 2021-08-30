@@ -7,7 +7,16 @@
 
 int main ()
 {
-	Parser parser = new Parser();
-	parser.wordsParsing();
-	return 0;
+	Parser parser = Parser();
+	try
+	{
+		parser.wordsParsing();
+	}
+	catch (const std::exception&)
+	{
+		throw;
+		return 0;
+	}
+	
+	
 }

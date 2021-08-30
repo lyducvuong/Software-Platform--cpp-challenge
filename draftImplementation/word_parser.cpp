@@ -16,8 +16,8 @@ void Parser::workerThread(){
 	{
 	if (word.data[0]) // Do we have a new word?
 	{
-		Word * w = new Word(s_word); // Copy the word
-		
+		Word *w = new Word(); // Copy the word
+		strcpy_s(w->data, strlen(word.data) + 1, word.data);
 		word.data[0] = 0; // Inform the producer that we consumed the word
 		
 		endEncountered = std::strcmp( word.data, "end" ) == 0;
@@ -36,7 +36,7 @@ void Parser::workerThread(){
 		}
 	
 		if (!found)
-			s_wordsArray.push_back( w );
+			wordsArray.push_back( w );
 		}
 	}
 	}
@@ -49,23 +49,28 @@ void Parser::workerThread(){
 void Parser::readInputWords(){
 	bool endEncountered = false;
   
-	std::thread * worker = new std::thread( workerThread );
+	std::thread worker(&Parser::workerThread, Parser());
 	
 	char * linebuf = new char[32];
-	
-	while (!endEncountered)
+	try
 	{
-		if (fgets(linebuf, sizeof(linebuf), stdin) == nullptr) // EOF?
-			return;
-		
-		endEncountered = std::strcmp( linebuf, "end" ) == 0;
-		
-		// Pass the word to the worker thread
-		std::strcpy( s_word.data, linebuf );
-		while (this.word.data[0]); // Wait for the worker thread to consume it
-  }
+		while (!endEncountered)
+		{
+			if (fgets(linebuf, strlen(linebuf), stdin) == nullptr) // EOF?
+				return;
 
-  worker->join(); // Wait for the worker to terminate
+			endEncountered = std::strcmp(linebuf, "end") == 0;
+			// Pass the word to the worker thread
+			strcpy_s(word.data, strlen(linebuf) + 1, linebuf);
+			
+			//while (word.data[0]); // Wait for the worker thread to consume it
+		}
+	}
+	catch (const std::exception&)
+	{
+		worker.join(); // Wait for the worker to terminate
+		throw;
+	}
 }
 void Parser::lookupWords(){
 	bool found;
@@ -74,18 +79,18 @@ void Parser::lookupWords(){
 	for(;;)
 	{
 		std::printf( "\nEnter a word for lookup:" );
-		if (std::scanf( "%s", linebuf ) == EOF)
+		if (scanf_s( "%s", linebuf, sizeof(linebuf)) == EOF)
 			return;
 		
 		// Initialize the word to search for
 		Word * w = new Word();
-		std::strcpy( w->data, linebuf );
+		strcpy_s( w->data, sizeof(linebuf), linebuf);
 		
 		// Search for the word
 		unsigned i;
-		for ( i = 0; i < s_wordsArray.size(); ++i )
+		for ( i = 0; i < wordsArray.size(); ++i )
 		{
-			if (std::strcmp( s_wordsArray[i]->data, w->data ) == 0)
+			if (std::strcmp( wordsArray[i]->data, w->data ) == 0)
 			{
 			found = true;
 			break;
@@ -95,8 +100,8 @@ void Parser::lookupWords(){
 		if (found)
 		{
 			std::printf( "SUCCESS: '%s' was present %d times in the initial word list\n",
-						s_wordsArray[i]->data, s_wordsArray[i]->count );
-			this.totalFound++;
+						wordsArray[i]->data, wordsArray[i]->count );
+			totalFound++;
 		}
 		else
 			std::printf( "'%s' was NOT found in the initial word list\n", w->data );
@@ -105,18 +110,18 @@ void Parser::lookupWords(){
 void Parser::wordsParsing(){
 	try
 	{
-		this.readInputWords();
+		readInputWords();
 		// Sort the words alphabetically
-		std::sort( this.s_wordsArray.begin(), this.s_wordsArray.end() );
+		std::sort( wordsArray.begin(), wordsArray.end() );
 		
 		// Print the word list
 		std::printf( "\n=== Word list:\n" );
-		for ( auto p : this.s_wordsArray )
+		for ( auto p : wordsArray )
 			std::printf( "%s %d\n", p->data, p->count );
 		
-		this.lookupWords();
+		lookupWords();
 		
-		printf( "\n=== Total words found: %d\n", s_totalFound );
+		printf( "\n=== Total words found: %d\n", totalFound );
 	}
 	catch (std::exception & e)
 	{
